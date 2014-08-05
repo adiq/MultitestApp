@@ -1,0 +1,15 @@
+{% extends "multitest/template.html" %}
+{% block title %}Lista testów{% endblock %}
+{% block content %}
+
+    {% for test in tests %}
+
+        <h3>{{ forloop.revcounter }}. <a href="{% url 'test' test.id %}">{{ test.title }}</a> ({{ test.created_at|date:'d-m-Y H:s' }})</h3>
+
+    {% empty %}
+        <h1>Witaj!</h1>
+        <p>Niestety nie ma jeszcze nic ;)</p>
+
+    {% endfor %}
+
+{% endblock %}

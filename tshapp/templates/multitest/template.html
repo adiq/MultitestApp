@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Multitest{% endblock %} - TSH Test Application</title>
+    <meta charset="utf-8">
+    <meta name="description" content="Test your knowledge on our awesome app!">
+    <meta name="author" content="Adrian Zmenda">
+    <link href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA////AKenpwDm5uYA25pTAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAzMAAAAAAAAiIzAAADMzMzISMAACIiIiIhIzACERERERESMyERERQREREjIRERERERESMhEREUERERIyERERRBEREjIREUERQRESMhERQRFBERIyEREURBEREgAhEREREREgAAIiIiIiIgAAAAAAAAAAAAAAAAAAAAAAD/xwAA/4MAAOADAADAAQAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAACAAwAAwAcAAP//AAD//wAA" rel="icon" type="image/x-icon" />
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <style type="text/css">
+        #page {
+            margin-top: 60px;
+        }
+    </style>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    {% load static %}
+
+    <!--[if lt IE 9]>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.2/html5shiv.js"></script>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.3.0/respond.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+<div class="navbar navbar-fixed-top navbar-default" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="{% url 'index' %}">Multitest</a>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="{% url 'index' %}">Lista testów</a></li>
+                {% if user.is_authenticated %}
+                <li><a><b>Witaj, {{ user.username }}</b></a></li>
+                <li><a href="{% url 'logout' %}">Wyloguj</a></li>
+                {% else %}
+                <li><a href="{% url 'register' %}">Rejestracja</a></li>
+                <li><a href="{% url 'login' %}">Zaloguj</a></li>
+                {% endif %}
+            </ul>
+        </div>
+
+    </div>
+</div>
+
+<div id="page" class="container">
+
+    {% if messages %}
+            {% for message in messages %}
+                <h3{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</h3>
+            {% endfor %}
+    {% endif %}
+
+    <div class="row">
+        <div class="col-md-12">
+            {% block content %}
+            Sample content
+            {% endblock %}
+        </div>
+    </div>
+
+    <hr>
+
+    <footer>
+        <div>Wszelkie prawa zastrzeżone &copy; 2014</div>
+    </footer>
+
+</div>
+
+
+</body>
+</html>

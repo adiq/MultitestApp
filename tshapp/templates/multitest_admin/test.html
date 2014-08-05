@@ -1,0 +1,34 @@
+{% extends "multitest_admin/template.html" %}
+{% block title %}{{ test.title }}{% endblock %}
+{% load inplace_edit %}
+{% block content %}
+<small><b>Informacja:</b> Kliknij dwukrotnie w dany tekst aby edytować...</small><br/>
+<h2>{% inplace_edit 'test.title' auto_height=1, auto_width=1 %}</h2>
+
+    <table class="table table-striped">
+    <thead>
+        <th>Pytanie</th>
+        <th>Ilość odpowiedzi</th>
+        <th>Akcje</th>
+    </thead>
+    <tbody>
+    {% for q in test.question_set.all %}
+
+        <tr>
+        <td>{% inplace_edit 'q.question' %}</td><td>{{ q.answer_set.count }}</td><td><a href="{% url 'admin:question' q.id %}" class="btn btn-info">Edytuj odpowiedzi</a>  <form method="POST">{% csrf_token %}<button class="btn btn-danger" name="delete" value="{{ q.id }}" type="submit">Usuń</button></form></td>
+        </tr>
+
+    {% empty %}
+
+        <tr>
+        <td colspan="3"><h3>Brak pytań :(</h3></td>
+        </tr>
+
+    {% endfor %}
+        <tr>
+        <td colspan="3"><form method="POST">{% csrf_token %}<button class="btn btn-lg btn-primary" name="new" value="1" type="submit">Utwórz nowe pytanie</button></form></td>
+        </tr>
+    </tbody>
+    </table>
+
+{% endblock %}

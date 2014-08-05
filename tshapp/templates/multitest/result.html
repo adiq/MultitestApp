@@ -1,0 +1,9 @@
+{% extends "multitest/template.html" %}
+{% block title %}Wynik - {{ test.title }}{% endblock %}
+{% block content %}
+
+<h2>{{ test.title }}</h2>
+
+<h3>Odpowiedziałeś poprawnie na <b>{{ points }}</b> z {{ max_points }} pytań!</h3>
+
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "multitest_admin/template.html" %}
+{% block title %}{{ question.question }}{% endblock %}
+{% load inplace_edit %}
+{% block content %}
+
+<small><b>Informacja:</b> Kliknij dwukrotnie w dany tekst aby edytować...</small><br/>
+<h2>{% inplace_edit 'question.question' auto_height=1, auto_width=1 %}</h2>
+<a href="{% url 'admin:test' question.test.id %}">« powrót do testu</a>
+
+    <table class="table table-striped">
+    <thead>
+        <th>Poprawna?</th>
+        <th>Odpowiedź</th>
+        <th>Akcje</th>
+    </thead>
+    <tbody>
+    {% for a in question.answer_set.all %}
+
+        <tr>
+        <td>{% inplace_edit 'a.is_correct' auto_height=1, auto_width=1  %}</td><td>{% inplace_edit 'a.answer' auto_height=1, auto_width=1  %}</td><td><form method="POST">{% csrf_token %}<button class="btn btn-danger" name="delete" value="{{ a.id }}" type="submit">Usuń</button></form></td>
+        </tr>
+
+    {% empty %}
+
+        <tr>
+        <td colspan="3"><h3>Brak odpowiedzi :(</h3></td>
+        </tr>
+
+    {% endfor %}
+        <tr>
+        <td colspan="3"><form method="POST">{% csrf_token %}<button class="btn btn-lg btn-primary" name="new" value="1" type="submit">Utwórz nową odpowiedź</button></form></td>
+        </tr>
+    </tbody>
+    </table>
+
+{% endblock %}

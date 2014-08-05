@@ -1,0 +1,42 @@
+{% extends "multitest/template.html" %}
+{% block title %}{{ test.title }}{% endblock %}
+{% block content %}
+
+<h2>{{ test.title }}</h2>
+<form action="" method="post">{% csrf_token %}
+{% for q in test.question_set.all %}
+    <div class="well">
+        <b>{{ q.question }}</b><br/>
+        {% for a in q.answer_set.all %}
+            <input type="checkbox" name="question{{ q.id }}[]" required="required" value="{{ a.id }}" class="q{{ q.id }}" /> {{ a.answer }}<br/>
+        {% empty %}
+            <h2>Brak odpowiedzi.</h2>
+        {% endfor %}
+    </div>
+{% empty %}
+    <h2>Brak pytań.</h2>
+{% endfor %}
+<input type="checkbox" name="sendMail" value="T"> Wyślij wyniki testu również na mój email. <br/><br/>
+<input type="submit" value="Zakończ test" />
+</form>
+
+<script type="text/javascript">
+$(function() {
+
+    {# Require at least one answer for question #}
+    var cb = $(':checkbox[required]');
+    cb.change(function(){
+        var name = $(this).attr('class');
+
+        if($('.'+name+':checked').length>0) {
+            $('.'+name).removeAttr('required');
+        } else {
+            $('.'+name).attr('required','required');
+        }
+
+    });
+
+});
+</script>
+
+{% endblock %}

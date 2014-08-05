@@ -1,0 +1,33 @@
+{% extends "multitest_admin/template.html" %}
+{% block title %}Zarządzanie testami{% endblock %}
+{% block content %}
+
+    <table class="table table-striped">
+    <thead>
+        <th>Nazwa testu</th>
+        <th>Data utworzenia</th>
+        <th>Liczba pytań</th>
+        <th>Akcje</th>
+    </thead>
+    <tbody>
+    {% for test in tests %}
+
+        <tr>
+        <td><a href="{% url 'admin:test' test.id %}">{{ test.title }}</a></td><td>{{ test.created_at|date:'d-m-Y H:s' }}</td><td>{{ test.question_set.count }}</td><td><form method="POST">{% csrf_token %}<button class="btn btn-danger" name="delete" value="{{ test.id }}" type="submit">Usuń</button></form></td>
+        </tr>
+
+    {% empty %}
+
+        <tr>
+        <td colspan="4"><h3>Brak testów :(</h3></td>
+        </tr>
+
+    {% endfor %}
+        <tr>
+        <td colspan="4"><form method="POST">{% csrf_token %}<button class="btn btn-lg btn-primary" name="new" value="1" type="submit">Utwórz nowy test</button></form></td>
+        </tr>
+    </tbody>
+    </table>
+
+
+{% endblock %}

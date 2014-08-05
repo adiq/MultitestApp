@@ -1,0 +1,12 @@
+{% extends "multitest/template.html" %}
+{% block title %}Rejestracja{% endblock %}
+{% block content %}
+
+<h2>Załóż nowe konto</h2>
+<form action="{% url 'register' %}" method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <div class="clearfix"></div>
+    <button class="btn btn-lg btn-primary" type="submit">Zarejestruj mnie...</button>
+</form>
+
+{% endblock %}
